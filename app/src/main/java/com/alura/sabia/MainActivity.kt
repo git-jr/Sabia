@@ -21,12 +21,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.alura.sabia.gamemodes.complete.CompleteTranslationScreen
-import com.alura.sabia.gamemodes.identifyItems.IdentifyItemsScreen
-import com.alura.sabia.gamemodes.readAndRespond.ReadAndRespondScreen
-import com.alura.sabia.gamemodes.selecttheme.SelectThemeScreen
-import com.alura.sabia.gamemodes.sendPhoto.SendPhotoScreen
-import com.alura.sabia.gamemodes.translation.TranslationScreen
+import com.alura.sabia.ui.gamemodes.complete.CompleteTranslationScreen
+import com.alura.sabia.ui.gamemodes.identifyItems.IdentifyItemsScreen
+import com.alura.sabia.ui.gamemodes.readAndRespond.ReadAndRespondScreen
+import com.alura.sabia.ui.gamemodes.selecttheme.SelectThemeScreen
+import com.alura.sabia.ui.gamemodes.sendPhoto.SendPhotoScreen
+import com.alura.sabia.ui.gamemodes.translation.TranslationScreen
 
 
 class MainActivity : ComponentActivity() {

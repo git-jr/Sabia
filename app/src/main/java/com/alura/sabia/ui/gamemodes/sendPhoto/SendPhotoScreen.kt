@@ -1,4 +1,4 @@
-package com.alura.sabia.gamemodes.sendPhoto
+package com.alura.sabia.ui.gamemodes.sendPhoto
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.alura.sabia.gamemodes.complete
+package com.alura.sabia.ui.gamemodes.readAndRespond
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,15 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
+
 @Composable
-fun CompleteTranslationScreen(modifier: Modifier = Modifier) {
+fun ReadAndRespondScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Complete the translation",
+            text = "Read and respond"
         )
     }
 }

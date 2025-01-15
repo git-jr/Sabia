@@ -1,4 +1,4 @@
-package com.alura.sabia.gamemodes.readAndRespond
+package com.alura.sabia.ui.gamemodes.selecttheme
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,16 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
-
 @Composable
-fun ReadAndRespondScreen(modifier: Modifier = Modifier) {
+fun SelectThemeScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Read and respond"
+            text = "Select a theme or take a photo",
         )
     }
 }

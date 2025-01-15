@@ -1,4 +1,4 @@
-package com.alura.sabia.gamemodes.identifyItems
+package com.alura.sabia.ui.gamemodes.translation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,14 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun IdentifyItemsScreen(modifier: Modifier = Modifier) {
+fun TranslationScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Which of these items are in the image?"
+            text = "Translate the word",
         )
     }
 }
