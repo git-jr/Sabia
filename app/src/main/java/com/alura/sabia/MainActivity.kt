@@ -4,44 +4,147 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.alura.sabia.ui.theme.SabiaTheme
+import androidx.compose.ui.unit.dp
+import com.alura.sabia.gamemodes.complete.CompleteTranslationScreen
+import com.alura.sabia.gamemodes.identifyItems.IdentifyItemsScreen
+import com.alura.sabia.gamemodes.readAndRespond.ReadAndRespondScreen
+import com.alura.sabia.gamemodes.selecttheme.SelectThemeScreen
+import com.alura.sabia.gamemodes.sendPhoto.SendPhotoScreen
+import com.alura.sabia.gamemodes.translation.TranslationScreen
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SabiaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+
+            var navigateToGame by remember { mutableStateOf(true) }
+            if (navigateToGame) {
+                Game()
+            } else {
+                Home(
+                    onNavigateToGame = {
+                        navigateToGame = true
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun Home(
+    modifier: Modifier = Modifier,
+    onNavigateToGame: () -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Hello!",
+            modifier = modifier
+        )
+
+        Button(onClick = onNavigateToGame) {
+            Text("Play")
+        }
+    }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    SabiaTheme {
-        Greeting("Android")
+fun Game(modifier: Modifier = Modifier) {
+    val listAllModes = listOf(
+        GameModes.SELECT_THEME_OR_PHOTO,
+        GameModes.COMPLETE_TRANSLATION,
+        GameModes.TRANSLATE_PHRASE,
+        GameModes.READ_AND_RESPOND,
+        GameModes.IDENTIFY_ITEMS,
+        GameModes.SEND_PHOTO
+    )
+
+    var currentIndex by remember { mutableStateOf(0) }
+    var currentMode by remember { mutableStateOf(listAllModes[currentIndex]) }
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(bottom = 56.dp),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Button(
+                onClick = {
+                    if (currentIndex > 0) {
+                        currentIndex--
+                        currentMode = listAllModes[currentIndex]
+                    }
+                }
+            ) {
+                Text("Anteior")
+            }
+            Button(onClick = {
+                if (currentIndex < listAllModes.size - 1) {
+                    currentIndex++
+                    currentMode = listAllModes[currentIndex]
+                }
+            }) {
+                Text("Proximo")
+            }
+        }
+
+        Column(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            when (currentMode) {
+                GameModes.SELECT_THEME_OR_PHOTO -> {
+                    SelectThemeScreen()
+                }
+
+                GameModes.COMPLETE_TRANSLATION -> {
+                    CompleteTranslationScreen()
+                }
+
+                GameModes.TRANSLATE_PHRASE -> {
+                    TranslationScreen()
+                }
+
+                GameModes.READ_AND_RESPOND -> {
+                    ReadAndRespondScreen()
+                }
+
+                GameModes.IDENTIFY_ITEMS -> {
+                    IdentifyItemsScreen()
+                }
+
+                GameModes.SEND_PHOTO -> {
+                    SendPhotoScreen()
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.alura.sabia"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.alura.sabia"
