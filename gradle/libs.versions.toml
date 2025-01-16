@@ -19,6 +19,8 @@ hilt-navigation-compose = "1.2.0"
 
 camerax-version = "1.4.0"
 
+generativeai = "0.9.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -44,6 +46,9 @@ hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", ve
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger-compiler" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger-compiler" }
+
+generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
+
 
 androidx-camera-extensions = { module = "androidx.camera:camera-extensions", version.ref = "camerax-version" }
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "camerax-version" }
