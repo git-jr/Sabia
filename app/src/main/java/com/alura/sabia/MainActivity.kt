@@ -21,14 +21,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.alura.sabia.ui.gamemodes.complete.CompleteTranslationScreen
+import com.alura.sabia.ui.gamemodes.complete.CompleteScreen
 import com.alura.sabia.ui.gamemodes.identifyItems.IdentifyItemsScreen
 import com.alura.sabia.ui.gamemodes.readAndRespond.ReadAndRespondScreen
 import com.alura.sabia.ui.gamemodes.selecttheme.SelectThemeScreen
 import com.alura.sabia.ui.gamemodes.sendPhoto.SendPhotoScreen
 import com.alura.sabia.ui.gamemodes.translation.TranslationScreen
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +104,7 @@ fun Game(modifier: Modifier = Modifier) {
                     }
                 }
             ) {
-                Text("Anteior")
+                Text("Anterior")
             }
             Button(onClick = {
                 if (currentIndex < listAllModes.size - 1) {
@@ -126,7 +128,7 @@ fun Game(modifier: Modifier = Modifier) {
                 }
 
                 GameModes.COMPLETE_TRANSLATION -> {
-                    CompleteTranslationScreen()
+                    CompleteScreen()
                 }
 
                 GameModes.TRANSLATE_PHRASE -> {

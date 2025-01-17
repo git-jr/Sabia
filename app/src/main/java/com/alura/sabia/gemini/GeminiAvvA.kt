@@ -1,35 +1,18 @@
 package com.alura.sabia.gemini
 
 import android.graphics.Bitmap
-import com.alura.sabia.model.Author
-import com.alura.sabia.model.Message
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.Content
 import com.google.ai.client.generativeai.type.content
-import com.google.ai.client.generativeai.type.generationConfig
-import com.alura.sabia.apiKey as geminiApiKey
 
-class Gemini {
-    var defaultInstruction =
-        "Você é um programa de inteligência artificial com foco em ajudar no aprendizado de idiomas."
+class Gemini(private val apiKey: String) {
 
-    var apiKey: String = geminiApiKey
-    private var modelName: String = "gemini-pro-vision"
+    private var modelName: String = "gemini-1.5-flash"
 
     private lateinit var generativeModel: GenerativeModel
     private lateinit var chat: Chat
 
-    fun setupModel(
-        apiKey: String,
-        modelName: String = "gemini-pro-vision"
-    ) {
-        this.apiKey = apiKey
-        this.modelName = modelName
-
-        loadModel()
-
-    }
 
     private fun loadModel() {
         generativeModel = GenerativeModel(
@@ -37,6 +20,29 @@ class Gemini {
             apiKey = this.apiKey
         )
         chat = generativeModel.startChat()
+    }
+
+    suspend fun sendPrompt(
+        prompt: String,
+        onResponse: (String) -> Unit = {}
+    ) {
+        this.modelName = "gemini-1.5-flash"
+        loadModel()
+
+        val inputContent: Content = content {
+            text(prompt)
+        }
+
+        try {
+            generativeModel.generateContent(inputContent).let { response ->
+                response.text?.let {
+                    onResponse(it)
+                }
+            }
+        } catch (e: Exception) {
+            onResponse("Desculpe, houve um erro ao tentar processar a resposta.")
+            e.printStackTrace()
+        }
     }
 
     suspend fun sendPromptChat(
@@ -58,7 +64,6 @@ class Gemini {
                 image(it)
             }
             text(prompt)
-            text(defaultInstruction)
         }
 
         try {
@@ -74,20 +79,5 @@ class Gemini {
         }
     }
 
-
-    fun redefineDefaultData(
-        defaultInstruction: String? = "",
-        apiKey: String? = ""
-    ) {
-        defaultInstruction?.let {
-            this.defaultInstruction = it
-        }
-
-        apiKey?.let {
-            this.apiKey = it
-        }
-
-        loadModel()
-    }
 
 }
