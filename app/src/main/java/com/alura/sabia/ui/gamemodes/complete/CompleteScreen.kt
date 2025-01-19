@@ -58,69 +58,79 @@ fun CompleteScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Clique nas palavras abaixo que completa a frase corretamente"
-        )
+        if (state.load) {
+            Text(text = "Carregando...")
+        } else {
+            Column(
+                modifier = modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Clique nas palavras abaixo que completa a frase corretamente"
+                )
 
-        Spacer(modifier = Modifier.padding(16.dp))
+                Spacer(modifier = Modifier.padding(16.dp))
 
 
-        FlowRow(
-            modifier = modifier,
-        ) {
-            state.phraseToComplete.split(" ").forEach { word ->
-                if (word.contains("*")) {
-                    TextContainer(
-                        text = word.replace("*", ""),
-                        borderColor = Color.Green,
-                        onClick = {
-                            viewModel.removeAnswer(word)
+                FlowRow(
+                    modifier = modifier,
+                ) {
+                    state.phraseToComplete.split(" ").forEach { word ->
+                        if (word.contains("*")) {
+                            TextContainer(
+                                text = word.replace("*", ""),
+                                borderColor = Color.Green,
+                                onClick = {
+                                    viewModel.removeAnswer(word)
+                                }
+                            )
+                        } else {
+                            TextContainer(
+                                text = word
+                            )
+
                         }
-                    )
-                } else {
-                    TextContainer(
-                        text = word
-                    )
+                    }
+                }
 
+                Spacer(modifier = Modifier.padding(16.dp))
+
+                FlowRow(
+                    modifier = modifier,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    state.suggestions.forEach { suggestion ->
+                        SuggestionChip(
+                            onClick = {
+                                viewModel.checkAnswer(suggestion)
+                                Log.d("Suggestion chip", "hello world")
+                            },
+                            label = { Text(suggestion) },
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.padding(32.dp))
+
+                Button(
+                    onClick = {
+                        viewModel.checkResult()
+                    }
+                ) {
+                    Text("Verificar")
+                }
+
+                Spacer(modifier = Modifier.padding(32.dp))
+
+                state.isCorrect?.let {
+                    Text(
+                        text = if (it) "Correto" else "Incorreto"
+                    )
                 }
             }
         }
-
-        Spacer(modifier = Modifier.padding(16.dp))
-
-        FlowRow(
-            modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            state.suggestions.forEach { suggestion ->
-                SuggestionChip(
-                    onClick = {
-                        viewModel.checkAnswer(suggestion)
-                        Log.d("Suggestion chip", "hello world")
-                    },
-                    label = { Text(suggestion) },
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.padding(32.dp))
-
-        Button(
-            onClick = {
-                viewModel.checkResult()
-            }
-        ) {
-            Text("Verificar")
-        }
-
-        Spacer(modifier = Modifier.padding(32.dp))
-
-        state.isCorrect?.let {
-            Text(
-                text = if (it) "Correto" else "Incorreto"
-            )
-        }
-
     }
 }
 

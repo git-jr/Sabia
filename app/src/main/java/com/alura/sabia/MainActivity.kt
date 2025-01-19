@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -74,15 +75,15 @@ fun Home(
 @Composable
 fun Game(modifier: Modifier = Modifier) {
     val listAllModes = listOf(
-        GameModes.SEND_PHOTO,
         GameModes.SELECT_THEME_OR_PHOTO,
         GameModes.COMPLETE_TRANSLATION,
+        GameModes.SEND_PHOTO,
         GameModes.TRANSLATE_PHRASE,
         GameModes.READ_AND_RESPOND,
         GameModes.IDENTIFY_ITEMS
     )
 
-    var currentIndex by remember { mutableStateOf(0) }
+    var currentIndex by remember { mutableIntStateOf(0) }
     var currentMode by remember { mutableStateOf(listAllModes[currentIndex]) }
 
     Box(
