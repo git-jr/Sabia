@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,14 +64,16 @@ fun SendImageScreen(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize()
     ) {
         Column(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (state.load) {
                 Text(text = "Carregando...")
             } else {
-                Text(text = state.requestText)
+                SelectionContainer {
+                    Text(text = state.requestText)
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -124,6 +127,10 @@ fun SendImageScreen(modifier: Modifier = Modifier) {
                         text = if (it) "Correto" else "Incorreto"
                     )
                 }
+
+                Text(
+                    text = state.explanation
+                )
             }
         }
 
