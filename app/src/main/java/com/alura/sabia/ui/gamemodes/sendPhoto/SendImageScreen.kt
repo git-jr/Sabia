@@ -108,6 +108,16 @@ fun SendImageScreen(modifier: Modifier = Modifier) {
                     ) {
                         Text("Galeria")
                     }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(
+                        onClick = {
+                            viewModel.requestAgain()
+                        }
+                    ) {
+                        Text("Gerar outra")
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))

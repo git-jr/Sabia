@@ -31,8 +31,7 @@ class SendImageViewModel @Inject constructor(
     fun requestSubjectImage(
         subject: String
     ) {
-        val prompt =
-            "Dentro do tema '${subject}', sugira algo representativo relacionado a esse tema e peça para que eu envie uma foto. Responda apenas no seguinte formato: 'Me envie uma foto de [nome em inglês]'."
+        val prompt = "Dentro do tema '${subject}', sugira algo representativo relacionado a esse tema e peça para que eu envie uma foto. Responda apenas no seguinte formato: 'Me envie uma foto de [nome em inglês]'."
         val message = Message(
             text = prompt,
             author = Author.USER
@@ -50,6 +49,30 @@ class SendImageViewModel @Inject constructor(
         }
     }
 
+    fun requestAgain() {
+        _uiState.value = _uiState.value.copy(
+            load = true
+        )
+        viewModelScope.launch {
+            val prompt = "Não gostei desse, gere outro."
+            val message = Message(
+                text = prompt,
+                author = Author.USER
+            )
+            viewModelScope.launch {
+                gemini.sendChatPrompt(message,
+                    onResponse = { response ->
+                        Log.d("SendImageViewModel", "SendImageViewModel response: $response")
+                        _uiState.value = _uiState.value.copy(
+                            requestText = response,
+                            load = false
+                        )
+                    }
+                )
+            }
+        }
+    }
+
     fun checkImage() {
         _uiState.value = _uiState.value.copy(
             isCorrect = null,
@@ -58,7 +81,7 @@ class SendImageViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value.selectedImage?.let { selectedImage ->
                 val prompt =
-                    "Essa imagem responde a pergunta anterior? responda com 'sim' ou 'não'"
+                    "Essa imagem responde mostra exatamente o que você pediu? responda com 'sim' ou 'não'"
                 val message = Message(
                     text = prompt,
                     author = Author.USER,
