@@ -1,5 +1,6 @@
 package com.alura.sabia.ui.camera
 
+import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CameraInitializer(
-    onImageSaved: (String) -> Unit = {},
+    onImageSaved: (Bitmap) -> Unit = {},
     onError: () -> Unit
 ) {
     Box(

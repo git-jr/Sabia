@@ -3,7 +3,6 @@ package com.alura.sabia.ui.camera
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageCapture
@@ -38,13 +37,12 @@ import androidx.core.content.ContextCompat
 import coil3.compose.AsyncImage
 import com.alura.sabia.R
 import com.alura.sabia.extensions.rotateBitmap
-import com.alura.sabia.extensions.saveBitmapToInternalStorage
 import java.util.concurrent.Executor
 
 @OptIn(ExperimentalGetImage::class)
 @Composable
 fun CameraScreen(
-    onImageSaved: (String) -> Unit = {},
+    onImageSaved: (Bitmap) -> Unit = {},
     onError: () -> Unit = {}
 ) {
     var capturedImage by remember { mutableStateOf<Bitmap?>(null) }
@@ -131,19 +129,8 @@ fun CameraScreen(
                     Card(
                         onClick = {
                             capturedImage?.let {
-                                it.saveBitmapToInternalStorage(
-                                    context,
-                                    onSaved = { filePath ->
-                                        onImageSaved(filePath)
-                                        capturedImage = null
-                                    },
-                                    onError = { message ->
-                                        Toast.makeText(context, message, Toast.LENGTH_SHORT)
-                                            .show()
-                                        onError()
-                                    }
-                                )
-                            }
+                                onImageSaved(it)
+                            } ?: onError()
                         },
                     ) {
                         Row(

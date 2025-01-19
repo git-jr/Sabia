@@ -25,10 +25,9 @@ import com.alura.sabia.ui.gamemodes.complete.CompleteScreen
 import com.alura.sabia.ui.gamemodes.identifyItems.IdentifyItemsScreen
 import com.alura.sabia.ui.gamemodes.readAndRespond.ReadAndRespondScreen
 import com.alura.sabia.ui.gamemodes.selecttheme.SelectThemeScreen
-import com.alura.sabia.ui.gamemodes.sendPhoto.SendPhotoScreen
+import com.alura.sabia.ui.gamemodes.sendPhoto.SendImageScreen
 import com.alura.sabia.ui.gamemodes.translation.TranslationScreen
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -75,12 +74,12 @@ fun Home(
 @Composable
 fun Game(modifier: Modifier = Modifier) {
     val listAllModes = listOf(
+        GameModes.SEND_PHOTO,
         GameModes.SELECT_THEME_OR_PHOTO,
         GameModes.COMPLETE_TRANSLATION,
         GameModes.TRANSLATE_PHRASE,
         GameModes.READ_AND_RESPOND,
-        GameModes.IDENTIFY_ITEMS,
-        GameModes.SEND_PHOTO
+        GameModes.IDENTIFY_ITEMS
     )
 
     var currentIndex by remember { mutableStateOf(0) }
@@ -144,7 +143,7 @@ fun Game(modifier: Modifier = Modifier) {
                 }
 
                 GameModes.SEND_PHOTO -> {
-                    SendPhotoScreen()
+                    SendImageScreen()
                 }
             }
         }
