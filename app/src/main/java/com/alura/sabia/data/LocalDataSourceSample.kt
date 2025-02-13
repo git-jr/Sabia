@@ -1,0 +1,108 @@
+package com.alura.sabia.data
+
+class LocalDataSourceSample {
+    private val sampleThemes = listOf(
+        "Alimentos",
+        "Animais",
+        "Casa e Móveis",
+        "Clima e Estações",
+        "Compras e Dinheiro",
+        "Cores",
+        "Dias da Semana",
+        "Escola e Estudos",
+        "Esportes",
+        "Expressões Comuns",
+        "Família",
+        "Feriados e Festividades",
+        "Frutas",
+        "Hobbies",
+        "Lugares na Cidade",
+        "Meios de Transporte",
+        "Meses do Ano",
+        "Música e Artes",
+        "Números",
+        "Objetos",
+        "Partes do Corpo",
+        "Países",
+        "Profissões",
+        "Saudações",
+        "Saúde e Corpo Humano",
+        "Sentimentos e Emoções",
+        "Tecnologia",
+        "Transportes e Viagens",
+        "Verbos",
+        "Vestimentas"
+    )
+
+    private val sampleLanguages = listOf(
+        "Inglês",
+        "Espanhol",
+        "Francês",
+        "Alemão",
+        "Italiano",
+        "Japonês",
+        "Chinês",
+        "Coreano",
+        "Russo",
+        "Árabe",
+        "Hebraico",
+        "Hindi",
+        "Português",
+        "Holandês",
+        "Sueco",
+        "Norueguês",
+        "Dinamarquês",
+        "Finlandês",
+        "Islandês",
+        "Polonês",
+        "Tcheco",
+        "Eslovaco",
+        "Húngaro",
+        "Romeno",
+        "Búlgaro",
+        "Grego",
+        "Turco",
+        "Persa",
+        "Urdu",
+        "Tailandês",
+        "Vietnamita",
+        "Malaio",
+        "Indonésio",
+        "Filipino",
+        "Havaiano",
+        "Maori",
+        "Samoano",
+        "Tahitiano",
+        "Fijiano",
+        "Tonganês",
+        "Malgaxe",
+        "Swahili",
+        "Zulu",
+        "Xhosa",
+        "Sesotho",
+        "Chichewa",
+        "Hausa",
+        "Yoruba",
+        "Igbo",
+        "Ewe",
+        "Akan",
+        "Kikuyu",
+        "Kinyarwanda",
+        "Luganda",
+        "Amárico",
+        "Somali",
+        "Oromo",
+        "Tigrínia",
+        "Kiswahili",
+        "Kinyarwanda"
+    )
+
+    fun getThemes(): List<String> {
+        return sampleThemes
+    }
+
+    fun getLanguages() : List<String> {
+        return sampleLanguages
+    }
+}
+
