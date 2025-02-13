@@ -7,6 +7,7 @@ import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.google.ai.client.generativeai.type.generationConfig
+import kotlinx.coroutines.delay
 
 class GeminiAPI(
     private val apiKey: String = BuildConfig.apiKey,
@@ -54,7 +55,7 @@ class GeminiAPI(
             text(prompt)
         }
 
-        val response = if(useChat) chat.sendMessage(content)
+        val response = if (useChat) chat.sendMessage(content)
         else model.generateContent(content)
 
         Log.d("GeminiAPI", "response: ${response.text}")
@@ -73,4 +74,22 @@ class GeminiAPI(
         return response.text
 
     }
+
+    suspend fun generateContentStream(
+        prompt: String,
+        image: Bitmap,
+        onResult: (String) -> Unit
+    ) {
+        val content = content {
+            image(image)
+            text(prompt)
+        }
+
+        chat.sendMessageStream(content).collect { response ->
+            Log.d("GeminiAPI", "response: ${response.text}")
+            delay(1000)
+            onResult(response.text.toString())
+        }
+    }
+
 }

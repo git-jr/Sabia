@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.alura.sabia.dataStore.UserPreferencesDataStore
 import com.alura.sabia.gemini.GeminiAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -76,16 +77,13 @@ class SendImageViewModel @Inject constructor(
                 )
 
                 val prompt = "Essa imagem mostra exatamente o que você pediu? Explique o porquê."
-                val response = geminiAPI.generateContentWithImage(
+                geminiAPI.generateContentStream(
                     prompt,
                     selectedImage,
-                    useChat = true
-                )
-
-                response?.let {
+                ) { response ->
                     _uiState.value = _uiState.value.copy(
                         load = false,
-                        explanation = response,
+                        explanation = _uiState.value.explanation + response,
                         showBottomSheetResult = true
                     )
                 }
