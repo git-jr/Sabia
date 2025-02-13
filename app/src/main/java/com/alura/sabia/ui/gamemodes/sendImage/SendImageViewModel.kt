@@ -78,8 +78,17 @@ class SendImageViewModel @Inject constructor(
                 val prompt = "Essa imagem mostra exatamente o que você pediu? Explique o porquê."
                 val response = geminiAPI.generateContentWithImage(
                     prompt,
-                    selectedImage
+                    selectedImage,
+                    useChat = true
                 )
+
+                response?.let {
+                    _uiState.value = _uiState.value.copy(
+                        load = false,
+                        explanation = response,
+                        showBottomSheetResult = true
+                    )
+                }
             }
         }
     }

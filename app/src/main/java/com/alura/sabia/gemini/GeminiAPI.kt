@@ -46,14 +46,17 @@ class GeminiAPI(
 
     suspend fun generateContentWithImage(
         prompt: String,
-        image: Bitmap
+        image: Bitmap,
+        useChat: Boolean = false
     ): String? {
         val content = content {
             image(image)
             text(prompt)
         }
 
-        val response = model.generateContent(content)
+        val response = if(useChat) chat.sendMessage(content)
+        else model.generateContent(content)
+
         Log.d("GeminiAPI", "response: ${response.text}")
 
         return response.text
