@@ -6,11 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.alura.sabia.data.ThemeRepository
 import com.alura.sabia.dataStore.UserPreferencesDataStore
 import com.alura.sabia.gemini.GeminiAPI
+import com.alura.sabia.model.ThemeResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,12 +61,22 @@ class SelectThemeViewModel @Inject constructor(
         startLoad()
 
         viewModelScope.launch {
+            val prompt = """
+                Use essa imagem para gerar um tema de estudo de idiomas, 
+                algo como 'Animais', 'Profissões', 'Comida', etc. 
+                Retorne um json: "theme": "nome do tema em português". 
+            """.trimIndent()
+
             _uiState.value.selectedImage?.let { image ->
                 geminiAPI.generateContentWithImage(
                     image = image,
-                    prompt = "Descreva essa imagem em portugues"
-                ).let { response ->
-
+                    prompt = prompt
+                )?.let { response ->
+                    val theme = Json.decodeFromString<ThemeResponse>(response).theme
+                    _uiState.value = _uiState.value.copy(
+                        load = false,
+                        selectedTheme = theme
+                    )
                 }
             }
         }
