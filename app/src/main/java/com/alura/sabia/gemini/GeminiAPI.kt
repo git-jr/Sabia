@@ -33,6 +33,9 @@ class GeminiAPI(
                 responseMimeType = if (yes) "application/json" else "text/plain"
             }
         )
+
+        val history = chat.history
+        chat = model.startChat(history)
     }
 
     suspend fun generateContent(prompt: String): String? {

@@ -44,14 +44,20 @@ class SendImageViewModel @Inject constructor(
     private fun requestSubjectImage() {
         val subject = uiState.value.subject
         val language = uiState.value.language
-        val prompt = """Dentro do tema '${subject}', sugira algo representativo relacionado a esse tema e
+        val prompt =
+            """Dentro do tema '${subject}', sugira algo representativo relacionado a esse tema e
             peça para que eu envie uma foto. Responda apenas no seguinte formato:
             'Me envie uma imagem de [nome em '${language}']'.""".trimIndent()
 
-        _uiState.value = _uiState.value.copy(
-            requestText = "Me envie uma foto de 'a car'",
-            load = false
-        )
+        viewModelScope.launch {
+            geminiAPI.useJsonFormat(false)
+            geminiAPI.sendMessageChat(prompt)?.let { response ->
+                _uiState.value = _uiState.value.copy(
+                    requestText = response,
+                    load = false
+                )
+            }
+        }
     }
 
     fun requestAgain() {
@@ -70,6 +76,10 @@ class SendImageViewModel @Inject constructor(
                 )
 
                 val prompt = "Essa imagem mostra exatamente o que você pediu? Explique o porquê."
+                val response = geminiAPI.generateContentWithImage(
+                    prompt,
+                    selectedImage
+                )
             }
         }
     }
