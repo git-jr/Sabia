@@ -6,8 +6,8 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
 
 class GeminiAPI(
-    apiKey: String = BuildConfig.apiKey,
-    modelName: String = "gemini-2.0-flash"
+    private val apiKey: String = BuildConfig.apiKey,
+    private val modelName: String = "gemini-2.0-flash"
 ) {
     private var model: GenerativeModel
 
@@ -16,6 +16,15 @@ class GeminiAPI(
             modelName, apiKey,
             generationConfig = generationConfig {
                 responseMimeType = "application/json"
+            }
+        )
+    }
+
+    fun useJsonFormat(yes: Boolean) {
+        model = GenerativeModel(
+            modelName, apiKey,
+            generationConfig = generationConfig {
+                responseMimeType = if (yes) "application/json" else "text/plain"
             }
         )
     }

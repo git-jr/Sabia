@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alura.sabia.dataStore.UserPreferencesDataStore
 import com.alura.sabia.gemini.GeminiAPI
+import com.alura.sabia.model.PhraseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -65,27 +67,16 @@ class CompleteViewModel @Inject constructor(
     }
 
     private fun processResponse(response: String) {
-        val phraseToComplete =
-            response.substringAfter("incomplete_sentence\": \"").substringBefore("\",")
-        val completePhrase =
-            response.substringAfter("correct_sentence\": \"").substringBefore("\",")
 
-        val translationPhrase =
-            response.substringAfter("translation\": \"").substringBefore("\",")
-        val correctAnswers =
-            response.substringAfter("correct_answers\": [\"").substringBefore("\"],")
-                .split("\", \"")
-        val suggestions =
-            response.substringAfter("suggestions\": [\"").substringBefore("\"]").split("\", \"")
-
+        val phraseResponse = Json.decodeFromString<PhraseResponse>(response)
 
         _uiState.value = _uiState.value.copy(
             load = false,
-            phraseToComplete = phraseToComplete,
-            completedPhrase = completePhrase,
-            translationPhrase = translationPhrase,
-            correctAnswers = correctAnswers,
-            suggestions = suggestions
+            phraseToComplete = phraseResponse.incompleteSentence,
+            completedPhrase = phraseResponse.completePhrase,
+            translationPhrase = phraseResponse.translationPhrase,
+            correctAnswers = phraseResponse.correctAnswers,
+            suggestions = phraseResponse.suggestions
         )
     }
 

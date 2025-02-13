@@ -18,12 +18,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-
-        val geminiAPI = GeminiAPI()
-
-        lifecycleScope.launch {
-           geminiAPI.generateContent("Quando o Android foi lançado?")
-        }
+//
+//        val geminiAPI = GeminiAPI()
+//        geminiAPI.useJsonFormat(false)
+//
+//        lifecycleScope.launch {
+//           geminiAPI.generateContent("Quando o Android foi lançado?")
+//        }
 
         setContent {
             SabiaTheme {
