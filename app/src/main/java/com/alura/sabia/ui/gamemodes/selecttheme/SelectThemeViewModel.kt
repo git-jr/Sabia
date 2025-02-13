@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alura.sabia.data.ThemeRepository
 import com.alura.sabia.dataStore.UserPreferencesDataStore
+import com.alura.sabia.gemini.GeminiAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class SelectThemeViewModel @Inject constructor(
     private val themeRepository: ThemeRepository,
     private val dataStore: UserPreferencesDataStore,
+    private val geminiAPI: GeminiAPI
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SelectThemeUiState())
@@ -55,6 +57,17 @@ class SelectThemeViewModel @Inject constructor(
 
     fun generateThemByImage() {
         startLoad()
+
+        viewModelScope.launch {
+            _uiState.value.selectedImage?.let { image ->
+                geminiAPI.generateContentWithImage(
+                    image = image,
+                    prompt = "Descreva essa imagem em portugues"
+                ).let { response ->
+
+                }
+            }
+        }
     }
 
     fun selectTheme(theme: String) {
