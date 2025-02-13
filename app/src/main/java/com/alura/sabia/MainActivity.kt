@@ -15,6 +15,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val apiKey = BuildConfig.apiKey
+        println("apiKey: $apiKey")
+
         setContent {
             SabiaTheme {
                 NavHost(
