@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alura.sabia.dataStore.UserPreferencesDataStore
+import com.alura.sabia.gemini.GeminiAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SendImageViewModel @Inject constructor(
     private val dataStore: UserPreferencesDataStore,
+    private val geminiAPI: GeminiAPI
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SendImageUiState())
     var uiState = _uiState.asStateFlow()

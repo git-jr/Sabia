@@ -3,6 +3,7 @@ package com.alura.sabia.gemini
 import android.graphics.Bitmap
 import android.util.Log
 import com.alura.sabia.BuildConfig
+import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.google.ai.client.generativeai.type.generationConfig
@@ -12,6 +13,7 @@ class GeminiAPI(
     private val modelName: String = "gemini-2.0-flash"
 ) {
     private var model: GenerativeModel
+    private var chat: Chat
 
     init {
         model = GenerativeModel(
@@ -20,6 +22,8 @@ class GeminiAPI(
                 responseMimeType = "application/json"
             }
         )
+
+        chat = model.startChat()
     }
 
     fun useJsonFormat(yes: Boolean) {
@@ -50,5 +54,17 @@ class GeminiAPI(
         Log.d("GeminiAPI", "response: ${response.text}")
 
         return response.text
+    }
+
+
+    suspend fun sendMessageChat(prompt: String): String? {
+        val contentComplete = content {
+            text(prompt)
+        }
+
+        val response = chat.sendMessage(contentComplete)
+        Log.d("GeminiAPI", "response chat: ${response.text}")
+        return response.text
+
     }
 }
