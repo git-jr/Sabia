@@ -3,6 +3,7 @@ package com.alura.sabia.ui.gamemodes.complete
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alura.sabia.dataStore.UserPreferencesDataStore
+import com.alura.sabia.gemini.GeminiAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class CompleteViewModel @Inject constructor(
     private val dataStore: UserPreferencesDataStore
 ) : ViewModel() {
+    val geminiAPI = GeminiAPI()
 
     private val _uiState = MutableStateFlow(CompleteUiState())
     var uiState = _uiState.asStateFlow()
@@ -42,17 +44,24 @@ class CompleteViewModel @Inject constructor(
         val subject = uiState.value.subject
         val language = uiState.value.language
 
-        val phrase = """
-             {
-             "incomplete_sentence": "The sky is ___ and the trees are ___",
-             "correct_sentence": "The sky is blue and the trees are green",
-             "translation": "O céu é azul e as árvores são verdes",
-             "correct_answers": ["blue", "green"],
-             "suggestions": ["nuts", "blue", "oranges", "green", "red"]
-             }
-        """.trimIndent()
+        val prompt =
+            """Gere uma frase sobre o assunto: '$subject', em '$language', com 2 a 4 palavras faltando.
+                Sugira algumas palavras para preencher as lacunas e forneça as respostas corretas.""".trimIndent()
+        viewModelScope.launch {
+            val response = geminiAPI.generateContent(prompt)
 
-        processResponse(phrase)
+//        val phrase = """
+//             {
+//             "incomplete_sentence": "The sky is ___ and the trees are ___",
+//             "correct_sentence": "The sky is blue and the trees are green",
+//             "translation": "O céu é azul e as árvores são verdes",
+//             "correct_answers": ["blue", "green"],
+//             "suggestions": ["nuts", "blue", "oranges", "green", "red"]
+//             }
+//        """.trimIndent()
+
+            processResponse(response.toString())
+        }
     }
 
     private fun processResponse(response: String) {
