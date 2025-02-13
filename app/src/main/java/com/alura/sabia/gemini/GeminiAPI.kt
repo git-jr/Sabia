@@ -3,6 +3,7 @@ package com.alura.sabia.gemini
 import android.util.Log
 import com.alura.sabia.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.generationConfig
 
 class GeminiAPI(
     apiKey: String = BuildConfig.apiKey,
@@ -11,7 +12,12 @@ class GeminiAPI(
     private var model: GenerativeModel
 
     init {
-        model = GenerativeModel(modelName, apiKey)
+        model = GenerativeModel(
+            modelName, apiKey,
+            generationConfig = generationConfig {
+                responseMimeType = "application/json"
+            }
+        )
     }
 
     suspend fun generateContent(prompt: String): String? {

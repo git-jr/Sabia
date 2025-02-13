@@ -43,23 +43,23 @@ class CompleteViewModel @Inject constructor(
         startLoad()
         val subject = uiState.value.subject
         val language = uiState.value.language
-
-        val prompt =
-            """Gere uma frase sobre o assunto: '$subject', em '$language', com 2 a 4 palavras faltando.
-                Sugira algumas palavras para preencher as lacunas e forneça as respostas corretas.""".trimIndent()
         viewModelScope.launch {
+
+            val prompt = """
+            Gere uma frase sobre o assunto: '$subject', em '$language', com 2 a 4 palavras faltando.
+            Sugira algumas palavras para preencher as lacunas e forneça as respostas corretas.
+            
+            Responde nesse formato:
+             {
+             "incomplete_sentence": "The sky is ___ and the trees are ___",
+             "correct_sentence": "The sky is blue and the trees are green",
+             "translation": "O céu é azul e as árvores são verdes",
+             "correct_answers": ["blue", "green"],
+             "suggestions": ["nuts", "blue", "oranges", "green", "red"]
+             }
+        """.trimIndent()
+
             val response = geminiAPI.generateContent(prompt)
-
-//        val phrase = """
-//             {
-//             "incomplete_sentence": "The sky is ___ and the trees are ___",
-//             "correct_sentence": "The sky is blue and the trees are green",
-//             "translation": "O céu é azul e as árvores são verdes",
-//             "correct_answers": ["blue", "green"],
-//             "suggestions": ["nuts", "blue", "oranges", "green", "red"]
-//             }
-//        """.trimIndent()
-
             processResponse(response.toString())
         }
     }
