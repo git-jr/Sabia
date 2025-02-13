@@ -26,7 +26,7 @@ fun NavHost(
         ) {
             NavHost(
                 navController = navController,
-                startDestination = Routes.SendImage
+                startDestination = Routes.SelectTheme
             ) {
                 composable<Routes.SelectTheme> {
                     SelectThemeScreen(

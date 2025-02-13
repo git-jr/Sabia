@@ -3,6 +3,7 @@ package com.alura.sabia.gemini
 import android.graphics.Bitmap
 import android.util.Log
 import com.alura.sabia.BuildConfig
+import com.alura.sabia.model.Message
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
@@ -76,18 +77,18 @@ class GeminiAPI(
     }
 
     suspend fun generateContentStream(
-        prompt: String,
-        image: Bitmap,
+        message: Message,
         onResult: (String) -> Unit
     ) {
-        val content = content {
-            image(image)
-            text(prompt)
+        val content = content(
+            message.author.displayName()
+        ) {
+            message.image?.let { image(it) }
+            message.text?.let { text(it) }
         }
 
         chat.sendMessageStream(content).collect { response ->
             Log.d("GeminiAPI", "response: ${response.text}")
-            delay(1000)
             onResult(response.text.toString())
         }
     }

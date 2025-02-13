@@ -80,7 +80,11 @@ fun EndGameScreen(
 
 
             Text(
-                text = "${state.consecutiveDays} dias consecutivos",
+                text = if (state.consecutiveDays == 1) {
+                    "Você completou o primeiro dia!"
+                } else {
+                    "Você completou ${state.consecutiveDays} dias consecutivos!"
+                },
             )
 
             Spacer(modifier = Modifier.padding(16.dp))
