@@ -15,9 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CompleteViewModel @Inject constructor(
-    private val dataStore: UserPreferencesDataStore
+    private val dataStore: UserPreferencesDataStore,
+    private val geminiAPI: GeminiAPI
 ) : ViewModel() {
-    val geminiAPI = GeminiAPI()
 
     private val _uiState = MutableStateFlow(CompleteUiState())
     var uiState = _uiState.asStateFlow()
