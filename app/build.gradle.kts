@@ -82,5 +82,6 @@ dependencies {
     implementation(libs.datastore)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.generativeai)
 
 }
